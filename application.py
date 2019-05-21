@@ -36,10 +36,12 @@ def survey() -> Response:
     try:
         countertops = lines['countertops']
         flooring = lines['flooring']
-        roofAge = lines['roofAge']
-        furnaceAge = lines['furnaceAge']
+        roof_age = lines['roofAge']
+        furnace_age = lines['furnaceAge']
+        address_ = lines['address']
+        address, zipcode = address_zip_split(address_)
 
-        outdat = {'valuation': countertops + flooring + roofAge + furnaceAge}
+        outdat = {'low': countertops + flooring, 'high': roof_age + furnace_age + address_}
 
         print("success!\t", outdat)
 
@@ -50,7 +52,9 @@ def survey() -> Response:
     except Exception as e:
         print("something wrong.\t", e)
 
-        return app.response_class(response=json.dumps({"failed": f"because {e}"}))
+        return app.response_class(response=json.dumps({"Fail": f"Failed because {e}"}),
+                                  status=200,
+                                  mimetype='application/json')
 
 @app.route("/", methods=['POST'])
 def address() -> Response:
@@ -66,7 +70,7 @@ def address() -> Response:
         print(message)
 
         return app.response_class(response=json.dumps({"FAIL": message}),
-                                  status=404,
+                                  status=200,
                                   mimetype='application/json'
                                   )
 
@@ -86,11 +90,10 @@ def address() -> Response:
             result.bedrooms,
             result.bathrooms]
 
-        #valuation: float = sum(predictants)# rfr.model.predict(np.array([predictants]))[0]
-
         outdat = {'low': sum(float(x) for x in predictands),
                   'high': product(float(x) for x in predictands),
-                  'parcel': parcel_data}
+                  'parcel': parcel_data,
+                  'address': address_}
 
         print(outdat)
 
