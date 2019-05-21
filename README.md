@@ -4,9 +4,10 @@
 
 ## _on the route_ `/`: 
 - please send object `{'address': '77 main street town state 54321'}` 
-- _along a `200` you will receive_ 
-either `{'low': 10, 'high': 100, 'parcel': {a {big {complicated { object }}}}}`
-- _or_ a `404`
+
+You will **either** receive: 
+- _along a `200`_ `{'low': 10, 'high': 100, 'parcel': {a {big {complicated { object }}}}}`
+- _or `{'FAIL': 'message'}` along a `404`_
 
 ## _on the route_ `/survey`
 - please send the object {
