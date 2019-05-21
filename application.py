@@ -12,7 +12,9 @@ import os
 from sklearn.model_selection import train_test_split # type: ignore
 from sklearn.ensemble import RandomForestRegressor # type: ignore
 from zillow_adapter import ask_zillow, PingZillow
-
+from functools import reduce
+def times(x, y): return x*y
+product = lambda xs: reduce(times, xs)
 
 def addr_zip_split(raw_add: str) -> Tuple[str, str]:
     zippat = r'[0-9]{5}$'
@@ -25,8 +27,33 @@ application = app = Flask(__name__)
 app.config['TESTING'] = True
 CORS(app)
 
+@app.route("/survey", methods=['POST'])
+def survey() -> Response:
+
+    lines = request.get_json(force=True)
+
+
+    try:
+        countertops = lines['countertops']
+        flooring = lines['flooring']
+        roofAge = lines['roofAge']
+        furnaceAge = lines['furnaceAge']
+
+        outdat = {'valuation': countertops + flooring + roofAge + furnaceAge}
+
+        print("success!\t", outdat)
+
+        return app.response_class(response=json.dumps(outdat),
+                                  status=200,
+                                  mimetype='application/json')
+
+    except Exception as e:
+        print("something wrong.\t", e)
+
+        return app.response_class(response=json.dumps({"failed": f"because {e}"}))
+
 @app.route("/", methods=['POST'])
-def get() -> Response:
+def address() -> Response:
     lines = request.get_json(force=True)
     address_: str = lines['address']
 
@@ -44,15 +71,26 @@ def get() -> Response:
                                   )
 
     else:
+        # extract zillow parcel data from zillow deep search
+        keys = ['latitude', 'longitude', 'tax_year', 'tax_value', 'year_built',
+                'property_size', 'home_size', 'bathrooms', 'bedrooms', 'last_sold_date',
+                'last_sold_price', 'zestimate_amount', 'zestimate_last_updated',
+                'zestimate_value_change', 'zestimate_valuation_range_high',
+                'zestimate_valuationRange_low', 'zestimate_percentile']
 
-        predictands: List[float] = [
+        parcel_data = {k: vars(result)[k] for k in keys}
+
+
+        predictands: List[str] = [
             result.home_size,
             result.bedrooms,
             result.bathrooms]
 
         #valuation: float = sum(predictants)# rfr.model.predict(np.array([predictants]))[0]
 
-        outdat = {'arbitrary-function-of-predictants': str(predictands)}
+        outdat = {'low': sum(float(x) for x in predictands),
+                  'high': product(float(x) for x in predictands),
+                  'parcel': parcel_data}
 
         print(outdat)
 

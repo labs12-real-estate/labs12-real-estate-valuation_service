@@ -9,7 +9,6 @@ from xml.etree.ElementTree import Element
 ZILLOW_KEY = "X1-ZWz1h2y9e516ob_6plsv" #os.environ['ZWSID']
 
 PingZillow = Optional[GetDeepSearchResults]
-zillow_data = ZillowWrapper(ZILLOW_KEY)
 
 class ask_zillow:
     ''' a quasi adapter class for the zillow api. '''
@@ -17,7 +16,7 @@ class ask_zillow:
         self.address: str = address
         self.zipcode: Union[str, int] = zipcode
         self.zillow: ZillowWrapper = ZillowWrapper(credential)
-        self.results: Optional[Element] = self.results_()
+        self.results: PingZillow = self.results_()
     def results_(self) -> PingZillow:
         try:
             deep_search_response = (self
@@ -30,4 +29,4 @@ class ask_zillow:
         except ZillowError:
             return None
 
-X = ask_zillow("42 Heron Hill Dr. Downingtown, PA", 19335)
+Test = ask_zillow("42 Heron Hill Dr. Downingtown, PA", 19335)
