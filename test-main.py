@@ -9,9 +9,9 @@ P.add_argument('--service', type=str, default='local',
 
 ARGS = P.parse_args()
 
-SERVICE=ARGS.service
+SERVICE = ARGS.service
 
-def main():
+def main(service: str = SERVICE):
 
     def location(service: str=SERVICE) -> str:
         ''' service is either 'aws' or 'local'
@@ -20,12 +20,14 @@ def main():
         if service=='local':
             return "http://localhost:5000/"
         elif service=='aws':
-            return "valuator.us-east-1.elasticbeanstalk.com"
+
+            return "http://valuate.us-east-1.elasticbeanstalk.com/"
+            #return "valuator.us-east-1.elasticbeanstalk.com"
             #return "http://HouseMvp-env.9zyhxaxxek.us-east-1.elasticbeanstalk.com/"
         else:
             raise Exception("SERVICE NOT FOUND. ")
 
-    url = location("local")
+    url = location(service)
 
     good_address = "3400 Pacific Ave., Marina Del Rey, CA, 90292"
     bad_address = "7543 Heron Hill Dr. Downingtown Michigan 19335"

@@ -1,10 +1,19 @@
 #!/usr/bin/env python
 
 import os
-from typing import List, Optional, Union
+import re
+from typing import List, Optional, Union, Tuple
 from pyzillow.pyzillow import ZillowWrapper, GetDeepSearchResults
 from pyzillow.pyzillowerrors import ZillowError
-from xml.etree.ElementTree import Element
+from functools import reduce
+def times(x, y): return x*y
+product = lambda xs: reduce(times, xs)
+
+def addr_zip_split(raw_add: str) -> Tuple[str, str]:
+    zippat = r'[0-9]{5}$'
+    zipcode = re.search(zippat, raw_add).group()
+    address = raw_add[:(len(raw_add) - len(zipcode) - 1)]
+    return address, zipcode
 
 ZILLOW_KEY = "X1-ZWz1h2y9e516ob_6plsv" #os.environ['ZWSID']
 
@@ -17,6 +26,7 @@ class ask_zillow:
         self.zipcode: Union[str, int] = zipcode
         self.zillow: ZillowWrapper = ZillowWrapper(credential)
         self.results: PingZillow = self.results_()
+
     def results_(self) -> PingZillow:
         try:
             deep_search_response = (self
@@ -29,4 +39,4 @@ class ask_zillow:
         except ZillowError:
             return None
 
-Test = ask_zillow("42 Heron Hill Dr. Downingtown, PA", 19335)
+# Test = ask_zillow("42 Heron Hill Dr. Downingtown, PA", 19335)

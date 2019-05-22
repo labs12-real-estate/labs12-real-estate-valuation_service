@@ -1,4 +1,4 @@
-# Location: `valuator.us-east-1.elasticbeanstalk.com`
+# Location: `valuate.us-east-1.elasticbeanstalk.com`
 
 ### Notice: the content of the data is nonsense, we are just testing the routes. 
 
