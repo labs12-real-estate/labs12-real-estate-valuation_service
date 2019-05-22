@@ -43,11 +43,11 @@ def main(service: str = SERVICE):
     print(f"the bad address responded: {r_bad}.\nthe content of the resonse was {r_bad.json()}")
 
     survey_data = {
-            "address": "12345 Butternut Avenue, Sand Lake, MI 49343",
-            "countertops": "laminate",
-            "flooring": "hardwood",
+            "address": good_address, #"12345 Butternut Avenue, Sand Lake, MI 49343",
+            "countertops": "Granite/Concrete",
+            "flooring": "Hardwood",
             "roofAge": "0-4 years",
-            "furnaceAge": "0-4 years"
+            "furnaceAge": "10-14 years"
         }
 
     r_survey = requests.post(url+"survey", data=json.dumps(survey_data))
