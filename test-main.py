@@ -52,7 +52,21 @@ def main(service: str = SERVICE):
 
     r_survey = requests.post(url+"survey", data=json.dumps(survey_data))
 
-    print(f"The survey responded: {r_survey}.\nThe content of the repsonse was {r_survey.json()}")
+    print(f"The first survey responded: {r_survey}.\nThe content of the repsonse was {r_survey.json()}")
+
+    second_survey_data = {
+            "address": "42 Heron Hill Dr. Downingtown, PA 19335",
+            "countertops": "Laminate",
+            "flooring": "Hardwood",
+            "roofAge": "10-14 years",
+            "furnaceAge": "0-4 years"
+        }
+
+
+    r_survey = requests.post(url+"survey", data=json.dumps(second_survey_data))
+
+    print(f"The second survey responded: {r_survey}.\nThe content of the repsonse was {r_survey.json()}")
+
 
     pass
 

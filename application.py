@@ -49,7 +49,7 @@ def address() -> Response:
 
         valuator = valuation(result, survey_predictants)
 
-        outdat = {'low': valuator.predictants,
+        outdat = {'low': valuator.low,
                   'high': valuator.high,
                   'parcel': parcel_data,
                   'address': address_}
@@ -95,7 +95,10 @@ def survey() -> Response:
         else:
             valuator = valuation(result, survey_predictants)
 
-            outdat = {'low': valuator.low, 'high': valuator.high, 'predictants': valuator.predictants}
+            outdat = {'value': valuator.prediction,
+                      'low': valuator.low,
+                      'high': valuator.high,
+                      }
 
             print("success!\t", outdat)
 
