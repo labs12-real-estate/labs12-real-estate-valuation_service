@@ -5,19 +5,9 @@ import re
 from typing import List, Optional, Union, Tuple
 from pyzillow.pyzillow import ZillowWrapper, GetDeepSearchResults
 from pyzillow.pyzillowerrors import ZillowError
-from functools import reduce
-def times(x, y): return x*y
-product = lambda xs: reduce(times, xs)
+from constants import PingZillow, ZILLOW_KEY
 
-def addr_zip_split(raw_add: str) -> Tuple[str, str]:
-    zippat = r'[0-9]{5}$'
-    zipcode = re.search(zippat, raw_add).group()
-    address = raw_add[:(len(raw_add) - len(zipcode) - 1)]
-    return address, zipcode
 
-ZILLOW_KEY = "X1-ZWz1h2y9e516ob_6plsv" #os.environ['ZWSID']
-
-PingZillow = Optional[GetDeepSearchResults]
 
 class ask_zillow:
     ''' a quasi adapter class for the zillow api. '''
@@ -34,7 +24,11 @@ class ask_zillow:
                                     .get_deep_search_results(
                                         self.address,
                                         self.zipcode))
-            return GetDeepSearchResults(deep_search_response)
+            res = GetDeepSearchResults(deep_search_response)
+            if not res.property_size:
+                return None
+            else:
+                return res
 
         except ZillowError:
             return None

@@ -50,7 +50,7 @@ class valuation:
         self.half_stdv = divide(y.std(), 2)
         self.prediction_psqft = self.gbr.predict(self.predictants)[0]
         self.low_psqft = self.prediction_psqft - self.half_stdv
-        self.high_psqft = self.prediction_psqft + self.half.stdv
+        self.high_psqft = self.prediction_psqft + self.half_stdv
 
         try:
             ## will multiply a number by None if the property size attribute is unavailable.
