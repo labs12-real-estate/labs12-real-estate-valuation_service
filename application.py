@@ -45,12 +45,12 @@ def address() -> Response:
 
         parcel_data = {k: vars(result)[k] for k in keys}
 
-        #survey_predictants = SurveyPredictants(NULL, NULL, NULL, NULL)
+        survey_predictants = SurveyPredictants(NULL, NULL, NULL, NULL)
 
-        #valuator = valuation(result, survey_predictants)
+        valuator = valuation(result, survey_predictants)
 
-        outdat = {'low': None,  #valuator.low,
-                  'high': None, #valuator.high,
+        outdat = {'low': valuator.low,
+                  'high': valuator.high,
                   'parcel': parcel_data,
                   'address': address_}
 
