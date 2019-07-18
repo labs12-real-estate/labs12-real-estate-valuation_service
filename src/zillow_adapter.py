@@ -25,10 +25,11 @@ class ask_zillow:
                                         self.address,
                                         self.zipcode))
             res = GetDeepSearchResults(deep_search_response)
-            if not res.property_size:
-                return None
-            else:
-                return res
+            #if not res.property_size:
+            #    return None
+            #else:
+            #    return res
+            return res
 
         except ZillowError:
             return None

@@ -10,7 +10,7 @@ class valuation:
                  zillow: PingZillow,
                  survey_predictants = SurveyPredictants(NULL, NULL,
                                                         NULL, NULL)):
-        assert zillow is not None, "This address is bad. "
+        assert zillow, "This address is bad. "
         try:
             with open("model.pickle", "rb") as m:
                 self.gbr = pickle.load(m)

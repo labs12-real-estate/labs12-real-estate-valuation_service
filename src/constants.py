@@ -41,9 +41,8 @@ SurveyPredictants = namedtuple("SurveyPredictants",
                                ["countertops", "flooring", "roof_age", "furnace_age"])
 
 PingZillow = Optional[GetDeepSearchResults]
-ZILLOW_KEY = "X1-ZWz1h2y9e516ob_6plsv" #os.environ['ZWSID']
+ZILLOW_KEY =  "X1-ZWz1860i3vydqj_9vdv4"# "X1-ZWz1h2y9e516ob_6plsv" #os.environ['ZWSID']
 NULL = 'skip' # alias for none
-
 
 COUNTERTOPS_MAP = {"Marble/Quartz": [1, 0, 0, 0],
                    "Granite/Concrete": [0, 1, 0, 0],
